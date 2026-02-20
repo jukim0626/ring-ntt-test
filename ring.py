@@ -110,11 +110,8 @@ def time_repeat(label, fn, repeats=50, warmup=5):
 
 
 if __name__ == "__main__":
-    # ====== 네가 여기만 바꾸면 됨 ======
     n = 2048
     q = 12289
-
-    # 임의 입력 (원하는 숫자로 바꿔서 테스트)
 
     a_coeffs = [random.randrange(-q, q) for _ in range(n)]
     b_coeffs = [random.randrange(-q, q) for _ in range(n)]
@@ -131,7 +128,7 @@ if __name__ == "__main__":
     _, _ = time_once("ADD (once)", lambda: a + b)
     _, _ = time_once("MUL (once, naive O(n^2))", lambda: a * b)
 
-    # 반복 평균 시간(더 안정적)
+    # 반복 평균 시간
     print("\n[Repeat timing for stable average]")
     _, _, _ = time_repeat("ADD (repeat)", lambda: a + b, repeats=200, warmup=20)
     _, _, _ = time_repeat("MUL (repeat, naive O(n^2))", lambda: a * b, repeats=30, warmup=5)

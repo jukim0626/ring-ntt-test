@@ -148,7 +148,7 @@ if __name__ == "__main__":
     # ===== 파라미터 =====
     n = 2048
     q = 12289
-    psi = 7   # 필요하면 바꿔
+    psi = 7
 
     # 랜덤 입력
     a_coeffs = [random.randrange(-q, q) for _ in range(n)]
