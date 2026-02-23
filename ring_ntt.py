@@ -1,37 +1,20 @@
-# 재배열
-def bit_reverse_permutation(a):
-    n = len(a)
-    bits = n.bit_length() - 1
-    res = [0] * n
-
-    for i in range(n):
-        rev = 0
-        x = i
-        for _ in range(bits):
-            rev = (rev << 1) | (x & 1)
-            x >>= 1
-        res[rev] = a[i]
-    return res
-
 # coeff -> value
 def ntt_inplace(a, n, omega, q):
-    a[:] = bit_reverse_permutation(a)
-    length = 2
-    while length <= n:
+    length = n
+    while length > 1:
         half = length // 2
         w_m = pow(omega, n // length, q)
         for i in range(0, n, length):
             w = 1
             for j in range(half):
                 u = a[i + j]
-                v = (a[i + j + half] * w) % q
+                v = a[i + j + half]
                 a[i + j] = (u + v) % q
-                a[i + j + half] = (u - v) % q
+                a[i + j + half] = ((u - v) * w) % q
                 w = (w * w_m) % q
-        length *= 2
+        length //= 2
 
 def intt_inplace(a, n, omega_inv, q):
-    a[:] = bit_reverse_permutation(a)
     length = 2
     while length <= n:
         half = length // 2
@@ -41,14 +24,14 @@ def intt_inplace(a, n, omega_inv, q):
             for j in range(half):
                 u = a[i + j]
                 v = a[i + j + half]
-                t = (w * v) % q
-                a[i + j] = (u + t) % q
-                a[i + j + half] = (u - t) % q
+                a[i + j] = (u + v) % q
+                a[i + j + half] = ((u - v) * w) % q
                 w = (w * w_m) % q
         length *= 2
-    n_inv = pow(n, q - 2, q)
+
+    inv_n = pow(n, q - 2, q)
     for i in range(n):
-        a[i] = (a[i] * n_inv) % q
+        a[i] = (a[i] * inv_n) % q
 
 
 class NTTPolynomialRing:
@@ -61,7 +44,7 @@ class NTTPolynomialRing:
         self.coefficients = [int(x % q) for x in coeffs]
         self.psi = psi
         self.psi_inv = pow(psi, q - 2, q)
-        self.omega = pow(psi, 2, q)        # primitive n-th root
+        self.omega = pow(psi, 2, q)
         self.omega_inv = pow(self.omega, q - 2, q)
 
     def copy(self):
