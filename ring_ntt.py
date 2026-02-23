@@ -150,4 +150,4 @@ if __name__ == "__main__":
 
     # 반복 평균 시간
     print("\n[Repeat timing for stable average]")
-    _, _, _ = time_repeat("NTT MUL (repeat)", lambda: a * b, repeats=50, warmup=10)
+    _, _, _ = time_repeat("NTT MUL (repeat)", lambda: a * b, repeats=200, warmup=10)
