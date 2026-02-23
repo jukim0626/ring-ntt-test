@@ -4,7 +4,7 @@ def ntt_inplace(a, n, omega, q):
     while length > 1:
         half = length // 2
         w_m = pow(omega, n // length, q)
-        for i in range(0, n, length):
+        for i in range(0, n, length):   # 블록별 butterfly 갱신 → 최종 값이 bit-reversed 순서로 a에 남음
             w = 1
             for j in range(half):
                 u = a[i + j]
